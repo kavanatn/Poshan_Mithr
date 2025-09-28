@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poshan Mithr - Complete Child Health & Nutrition Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow:  10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
+            box-shadow: 0 16px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #7eb2e6, #a2cefb);
+            color: black;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow:0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+        }
+
+        .nav-btn.secondary {
+            background: linear-gradient(135deg, #7eb2e6, #7eb2e6);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .nav-btn.accent {
+            background: linear-gradient(135deg, #7eb2e6, #a2cefb);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+            background: rgba();
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow:  10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color:#ebedeb ;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .page-description {
+            font-size: 1.rem;
+            color: black;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Card Styles */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow:  10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(33, 150, 243, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .card-description {
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Game Styles */
+        .game-container {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec489);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .memory-card {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        /* Timer Styles */
+        .timer-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2196F3;
+            background: rgba(33, 150, 243, 0.1);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 3px solid #2196F3;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        /* Video Container */
+        .video-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.2);
+        }
+
+        /* Button Styles */
+        .btn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+        }
+
+        .btn.accent {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+        }
+
+        .btn.danger {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Consultant Cards */
+        .consultant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .consultant-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #2196F3;
+        }
+
+        .consultant-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 5px;
+        }
+
+        .consultant-specialty {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .consultant-rating {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* Nutrition Database */
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .nutrition-item {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #2196F3;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nutrition-food {
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+
+        .nutrition-details {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-board {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 300px;
+            }
+
+            .memory-card {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .video-wrapper iframe {
+                height: 250px;
+            }
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: rgba(33, 150, 243, 0.1);
+            border-color: #2196F3;
+            color: #1565c0;
+        }
+
+        .alert-warning {
+            background: rgba(255, 152, 0, 0.1);
+            border-color: #FF9800;
+            color: #ef6c00;
+        }
+
+        .alert-info {
+            background: rgba(33, 150, 243, 0.1);
+            border-color: #2196F3;
+            color: #1565c0;
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="https://uploads.onecompiler.io/42sycu8qc/43y32424f/logo%20%20Poshan%20Mithr%20.png" alt="Poshan Mithr Logo" class="logo">
+            <h1 class="main-title">🌟 Poshan Mithr 🌟</h1>
+            <p class="subtitle">Comprehensive Child Health & Nutrition Management System</p>
+            
+            <!-- Navigation -->
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="showPage('home')">🏠 Home</button>
+                <button class="nav-btn secondary" onclick="showPage('dashboard')">📊 Dashboard</button>
+                <button class="nav-btn" onclick="showPage('growth-tracking')">📈 Growth Tracking</button>
+                <button class="nav-btn accent" onclick="showPage('nutrition-analysis')">🍎 Nutrition Analysis</button>
+                <button class="nav-btn secondary" onclick="showPage('parent-portal')">📱 Parent Portal</button>
+                <button class="nav-btn accent" onclick="showPage('kids-zone')">🎮 Kids Zone</button>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <h2 class="page-title">🏠 Welcome to Poshan Mithr</h2>
+            <p class="page-description">Your trusted partner in child health and nutrition management</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h3 class="card-title">Growth Tracking</h3>
+                    <p class="card-description">Monitor child's height, weight, and overall development with AI-powered insights</p>
+                    <button class="btn" onclick="showPage('growth-tracking')">Explore Growth Tracking</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">🍎</div>
+                    <h3 class="card-title">Nutrition Analysis</h3>
+                    <p class="card-description">AI-powered deficiency detection and personalized diet recommendations</p>
+                    <button class="btn" onclick="showPage('nutrition-analysis')">Explore Nutrition</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">💉</div>
+                    <h3 class="card-title">Vaccination Tracking</h3>
+                    <p class="card-description">Automated reminders and awareness about child vaccination schedules</p>
+                    <button class="btn" onclick="showPage('parent-portal')">View Vaccination</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">🎮</div>
+                    <h3 class="card-title">Kids Zone</h3>
+                    <p class="card-description">Educational games and stress-relief activities for children</p>
+                    <button class="btn" onclick="showPage('kids-zone')">Play & Learn</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">📱</div>
+                    <h3 class="card-title">Parent Portal</h3>
+                    <p class="card-description">Real-time updates, health alerts, and educational resources</p>
+                    <button class="btn" onclick="showPage('parent-portal')">Access Portal</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">🏥</div>
+                    <h3 class="card-title">Health Monitoring</h3>
+                    <p class="card-description">Comprehensive health tracking with predictive analytics</p>
+                    <button class="btn" onclick="showPage('dashboard')">View Dashboard</button>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">Children Registered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">89%</div>
+                    <div class="stat-label">Vaccination Coverage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">156</div>
+                    <div class="stat-label">Active Centers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4.9⭐</div>
+                    <div class="stat-label">Parent Rating</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page">
+            <h2 class="page-title">📊 Comprehensive Dashboard</h2>
+            <p class="page-description">Real-time insights into child health and nutrition data</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">Registered Children</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">89%</div>
+                    <div class="stat-label">Vaccination Coverage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">156</div>
+                    <div class="stat-label">Active Centers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">23</div>
+                    <div class="stat-label">High-Risk Cases</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="card-title">📊 Nutrition Status Overview</h3>
+                    <div style="height: 200px; background: linear-gradient(135deg, #2196F3, #1976D2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                        Interactive Chart Area
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">📈 Growth Tracking Trends</h3>
+                    <div style="height: 200px; background: linear-gradient(135deg, #2196F3, #1976D2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                        Growth Trend Analysis
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">⚡ Quick Actions</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <button class="btn">👶 Add Child</button>
+                    <button class="btn secondary">📋 Generate Report</button>
+                    <button class="btn accent">💉 Schedule Vaccination</button>
+                    <button class="btn">🔔 Send Alerts</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Growth Tracking Page -->
+        <div id="growth-tracking" class="page">
+            <h2 class="page-title">📈 Growth Tracking</h2>
+            <p class="page-description">Monitor child's height, weight, and overall development with AI-powered insights</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="card-title">Child Growth Analysis</h3>
+                    <div class="form-group">
+                        <label class="form-label">Child ID</label>
+                        <input type="text" class="form-input" id="childId" placeholder="Enter Child ID">
+                    </div>
+                    <button class="btn" onclick="generateGrowthReport()">Generate Growth Report</button>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Height & Weight Progress</h3>
+                    <div style="height: 200px; background: linear-gradient(135deg, #2196F3, #1976D2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                        📊 Growth Chart Area
+                    </div>
+                </div>
+            </div>
+
+            <div id="growth-report" class="hidden">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #2196F3;">Normal</div>
+                        <div class="stat-label">Current Status</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">16.2</div>
+                        <div class="stat-label">BMI (Healthy)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #2196F3;">85/100</div>
+                        <div class="stat-label">Nutrition Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #2196F3;">Low</div>
+                        <div class="stat-label">Risk Level</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">🤖 AI-Powered Recommendations</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div>
+                            <h4 style="color: #2196F3; margin-bottom: 15px;">Nutritional Recommendations</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 10px;">✓ Include more iron-rich foods like spinach and lentils</li>
+                                <li style="margin-bottom: 10px;">✓ Maintain current protein intake with eggs and dairy</li>
+                                <li style="margin-bottom: 10px;">✓ Add seasonal fruits for vitamin C</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #2196F3; margin-bottom: 15px;">Activity Recommendations</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 10px;">🏃 30 minutes of outdoor play daily</li>
+                                <li style="margin-bottom: 10px;">🧘 Include yoga or stretching exercises</li>
+                                <li style="margin-bottom: 10px;">⚽ Team sports for social development</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nutrition Analysis Page -->
+        <div id="nutrition-analysis" class="page">
+            <h2 class="page-title">🍎 Nutrition Analysis</h2>
+            <p class="page-description">AI-powered deficiency detection and personalized diet recommendations</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="card-title">AI-Powered Food Quality Analysis</h3>
+                    <div class="form-group">
+                        <label class="form-label">Meal Type</label>
+                        <select class="form-select" id="mealType">
+                            <option value="">Select meal type</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="snack">Snack</option>
+                            <option value="dinner">Dinner</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Food Items (comma separated)</label>
+                        <textarea class="form-textarea" id="foodItems" placeholder="e.g., Rice, Dal, Vegetables, Egg" rows="3"></textarea>
+                    </div>
+                    <button class="btn" onclick="analyzeFood()">Analyze Food Quality</button>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">🎥 Educational Resources</h3>
+                    
+                    <div class="video-container">
+                        <h4 style="margin-bottom: 15px;">🎥 Nutrition Guide</h4>
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/c06dTj0v0sM" allowfullscreen title="Nutrition Guide"></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="video-container">
+                        <h4 style="margin-bottom: 15px;">🎥 Disease Prevention</h4>
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/fk8cqO4meKo" allowfullscreen title="Disease Prevention"></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="video-container">
+                        <h4 style="margin-bottom: 15px;">💉 Vaccination Importance</h4>
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/-UJ_LBVS8qU" allowfullscreen title="Vaccination Importance"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="food-analysis" class="hidden">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #2196F3;">Good</div>
+                        <div class="stat-label">Protein (18g)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #FF9800;">Low</div>
+                        <div class="stat-label">Iron (3mg)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #2196F3;">Good</div>
+                        <div class="stat-label">Vitamins (A, C)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comprehensive Nutrition Database -->
+            <div class="card">
+                <h3 class="card-title">📊 Complete Nutrition Database</h3>
+                <div class="nutrition-grid">
+                    <div class="nutrition-item">
+                        <div class="nutrition-food">Rice (1 cup cooked)</div>
+                        <div class="nutrition-details">
+                            <strong>Protein:</strong> 4.3g<br>
+                            <strong>Iron:</strong> 0.8mg<br>
+                            <strong>Vitamins:</strong> B1, B3, B6<br>
+                            <em>Benefits: Energy source, easy digestion, gluten-free</em>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-item">
+                        <div class="nutrition-food">Dal/Lentils (1 cup)</div>
+                        <div class="nutrition-details">
+                            <strong>Protein:</strong> 18g<br>
+                            <strong>Iron:</strong> 6.6mg<br>
+                            <strong>Vitamins:</strong> Folate, B1, B6<br>
+                            <em>Benefits: High protein, fiber, heart health, muscle growth</em>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-item">
+                        <div class="nutrition-food">Spinach (1 cup)</div>
+                        <div class="nutrition-details">
+                            <strong>Protein:</strong> 0.9g<br>
+                            <strong>Iron:</strong> 0.8mg<br>
+                            <strong>Vitamins:</strong> A, C, K, Folate<br>
+                            <em>Benefits: Eye health, bone strength, immune support</em>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-item">
+                        <div class="nutrition-food">Egg (1 large)</div>
+                        <div class="nutrition-details">
+                            <strong>Protein:</strong> 6g<br>
+                            <strong>Iron:</strong> 0.9mg<br>
+                            <strong>Vitamins:</strong> B12, D, Choline<br>
+                            <em>Benefits: Complete protein, brain development, muscle building</em>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-item">
+                        <div class="nutrition-food">Milk (1 cup)</div>
+                        <div class="nutrition-details">
+                            <strong>Protein:</strong> 8g<br>
+                            <strong>Iron:</strong> 0.1mg<br>
+                            <strong>Vitamins:</strong> D, B12, Riboflavin<br>
+                            <em>Benefits: Bone health, calcium source, growth support</em>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-item">
+                        <div class="nutrition-food">Banana (1 medium)</div>
+                        <div class="nutrition-details">
+                            <strong>Protein:</strong> 1.1g<br>
+                            <strong>Iron:</strong> 0.3mg<br>
+                            <strong>Vitamins:</strong> C, B6, Potassium<br>
+                            <em>Benefits: Instant energy, heart health, digestive support</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Portal Page -->
+        <div id="parent-portal" class="page">
+            <h2 class="page-title">📱 Parent Portal</h2>
+            <p class="page-description">Real-time updates, health alerts, and educational resources</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="card-title">Quick Actions</h3>
+                    <button class="btn" onclick="showBookingForm()" style="width: 100%; margin-bottom: 10px;">👩‍⚕️ Book Doctor Appointment</button>
+                    <button class="btn secondary" style="width: 100%; margin-bottom: 10px;">📊 View Growth Reports</button>
+                    <button class="btn accent" style="width: 100%; margin-bottom: 10px;">🔔 Health Alerts & Reminders</button>
+                    <button class="btn" style="width: 100%;">📚 Educational Resources</button>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">🔔 Recent Health Alerts</h3>
+                    <div class="alert alert-warning">
+                        <strong>Vaccination Reminder</strong><br>
+                        Measles vaccine due in 3 days
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Growth Check</strong><br>
+                        Monthly weight measurement reminder
+                    </div>
+                    <div class="alert alert-success">
+                        <strong>Nutrition Goal</strong><br>
+                        Great progress on iron intake!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Appointment Booking Form -->
+            <div id="booking-form" class="card hidden">
+                <h3 class="card-title">👩‍⚕️ Book Doctor Appointment</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label">Preferred Date</label>
+                        <input type="date" class="form-input" id="appointmentDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Consultant Type</label>
+                        <select class="form-select" id="consultantType">
+                            <option value="">Select specialist</option>
+                            <option value="pediatrician">Pediatrician</option>
+                            <option value="nutritionist">Child Nutritionist</option>
+                            <option value="psychologist">Child Psychologist</option>
+                            <option value="vaccination">Vaccination Specialist</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Health Concerns (Optional)</label>
+                    <textarea class="form-textarea" placeholder="Describe any specific concerns or symptoms..." rows="3"></textarea>
+                </div>
+                <button class="btn" onclick="bookAppointment()">Book Appointment</button>
+                <button class="btn secondary" onclick="hideBookingForm()">Cancel</button>
+            </div>
+
+            <!-- Available Consultants -->
+            <div class="card">
+                <h3 class="card-title">👩‍⚕️ Available Consultants</h3>
+                <div class="consultant-grid">
+                    <div class="consultant-card">
+                        <div class="consultant-name">Dr. Priya Sharma</div>
+                        <div class="consultant-specialty">Pediatrician</div>
+                        <div class="consultant-rating">4.9/5 ⭐</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+                            <strong>Experience:</strong> 15 years<br>
+                            <strong>Available:</strong> Mon-Fri, 9 AM - 5 PM
+                        </div>
+                        <button class="btn" style="width: 100%;">Book with Dr. Sharma</button>
+                    </div>
+                    
+                    <div class="consultant-card">
+                        <div class="consultant-name">Dr. Rajesh Kumar</div>
+                        <div class="consultant-specialty">Child Nutritionist</div>
+                        <div class="consultant-rating">4.8/5 ⭐</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+                            <strong>Experience:</strong> 12 years<br>
+                            <strong>Available:</strong> Tue-Sat, 10 AM - 6 PM
+                        </div>
+                        <button class="btn" style="width: 100%;">Book with Dr. Kumar</button>
+                    </div>
+                    
+                    <div class="consultant-card">
+                        <div class="consultant-name">Dr. Anita Verma</div>
+                        <div class="consultant-specialty">Child Psychologist</div>
+                        <div class="consultant-rating">4.9/5 ⭐</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+                            <strong>Experience:</strong> 10 years<br>
+                            <strong>Available:</strong> Mon-Wed-Fri, 11 AM - 4 PM
+                        </div>
+                        <button class="btn" style="width: 100%;">Book with Dr. Verma</button>
+                    </div>
+                    
+                    <div class="consultant-card">
+                        <div class="consultant-name">Dr. Suresh Patel</div>
+                        <div class="consultant-specialty">Vaccination Specialist</div>
+                        <div class="consultant-rating">4.7/5 ⭐</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+                            <strong>Experience:</strong> 8 years<br>
+                            <strong>Available:</strong> Daily, 8 AM - 2 PM
+                        </div>
+                        <button class="btn" style="width: 100%;">Book with Dr. Patel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kids Zone Page -->
+        <div id="kids-zone" class="page">
+            <h2 class="page-title">🎮 Kids Zone</h2>
+            <p class="page-description">Educational games and stress-relief activities for children</p>
+            
+            <!-- Educational Games -->
+            <div class="card">
+                <h3 class="card-title">🎯 Educational Games</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="game-container">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🧠</div>
+                        <h4 style="color: #2196F3; margin-bottom: 10px;">Memory Game</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Improve memory and concentration</p>
+                        <button class="btn" onclick="startMemoryGame()">Play Now</button>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🍎</div>
+                        <h4 style="color: #2196F3; margin-bottom: 10px;">Nutrition Quiz</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Learn about healthy foods</p>
+                        <button class="btn" onclick="startNutritionQuiz()">Play Now</button>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🏃‍♀️</div>
+                        <h4 style="color: #2196F3; margin-bottom: 10px;">Exercise Fun</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Physical activity games</p>
+                        <button class="btn" onclick="startExerciseGame()">Play Now</button>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🧩</div>
+                        <h4 style="color: #2196F3; margin-bottom: 10px;">Health Puzzles</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Solve health-related puzzles</p>
+                        <button class="btn" onclick="startHealthPuzzle()">Play Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory Game Area -->
+            <div id="memory-game" class="card hidden">
+                <h3 class="card-title">🧠 Memory Game</h3>
+                <div class="timer-container">
+                    <div class="timer-display" id="memory-timer">60</div>
+                    <p>Seconds Remaining</p>
+                </div>
+                <div class="game-board" id="memory-board">
+                    <!-- Memory cards will be generated here -->
+                </div>
+                <div class="timer-controls">
+                    <button class="btn" onclick="resetMemoryGame()">Reset Game</button>
+                    <button class="btn secondary" onclick="hideMemoryGame()">Back to Games</button>
+                </div>
+                <div id="memory-score" style="text-align: center; margin-top: 20px; font-size: 1.2rem; color: #2196F3;"></div>
+            </div>
+
+            <!-- Nutrition Quiz Area -->
+            <div id="nutrition-quiz" class="card hidden">
+                <h3 class="card-title">🍎 Nutrition Quiz</h3>
+                <div id="quiz-question" style="font-size: 1.3rem; margin-bottom: 20px; text-align: center;"></div>
+                <div id="quiz-options" style="display: grid; gap: 10px; margin-bottom: 20px;"></div>
+                <div id="quiz-score" style="text-align: center; font-size: 1.2rem; color: #2196F3; margin-bottom: 20px;"></div>
+                <button class="btn secondary" onclick="hideNutritionQuiz()">Back to Games</button>
+            </div>
+
+            <!-- Stress Relief Activities -->
+            <div class="card">
+                <h3 class="card-title">😌 Stress Relief Activities</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="game-container">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🌬️</div>
+                        <h4 style="color: #2196F3; margin-bottom: 10px;">Breathing Exercise</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Calm your mind with breathing</p>
+                        <button class="btn secondary" onclick="startBreathingExercise()">Start Activity</button>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🧘‍♀️</div>
+                        <h4 style="color: #2196F3; margin-bottom: 10px;">Kids Meditation</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Simple meditation for children</p>
+                        <button class="btn secondary" onclick="startKidsMeditation()">Start Activity</button>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🤸‍♀️</div>
+                        <h4 style="color: #2196F3; margin-bottom: 10px;">Fun Yoga</h4>
+                        <p style="color: #666; margin-bottom: 15px;">Easy yoga poses for kids</p>
+                        <button class="btn secondary" onclick="startFunYoga()">Start Activity</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breathing Exercise -->
+            <div id="breathing-exercise" class="card hidden">
+                <h3 class="card-title">🌬️ Breathing Exercise</h3>
+                <div class="timer-container">
+                    <div class="timer-display" id="breathing-timer">5</div>
+                    <p id="breathing-instruction">Breathe In...</p>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn" onclick="startBreathingTimer()">Start Breathing</button>
+                    <button class="btn secondary" onclick="hideBreathingExercise()">Back to Activities</button>
+                </div>
+            </div>
+
+            <!-- Kids Meditation -->
+            <div id="kids-meditation" class="card hidden">
+                <h3 class="card-title">🧘‍♀️ Kids Meditation</h3>
+                <div class="timer-container">
+                    <div class="timer-display" id="meditation-timer">10</div>
+                    <p>Minutes of Peaceful Meditation</p>
+                </div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 20px;">
+                        Sit comfortably, close your eyes, and focus on your breathing. 
+                        Let your thoughts flow like clouds in the sky.
+                    </p>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn" onclick="startMeditationTimer()">Start Meditation</button>
+                    <button class="btn secondary" onclick="hideMeditation()">Back to Activities</button>
+                </div>
+            </div>
+
+            <!-- Fun Yoga -->
+            <div id="fun-yoga" class="card hidden">
+                <h3 class="card-title">🤸‍♀️ Fun Yoga</h3>
+                <div class="timer-container">
+                    <div class="timer-display" id="yoga-timer">15</div>
+                    <p>Minutes of Fun Yoga</p>
+                </div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="background: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px;">
+                            <h4 style="color: #2196F3;">🐱 Cat Pose</h4>
+                            <p>Arch your back like a stretching cat</p>
+                        </div>
+                        <div style="background: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px;">
+                            <h4 style="color: #2196F3;">🐕 Dog Pose</h4>
+                            <p>Stretch like a happy dog</p>
+                        </div>
+                        <div style="background: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px;">
+                            <h4 style="color: #2196F3;">🌳 Tree Pose</h4>
+                            <p>Stand tall and strong like a tree</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn" onclick="startYogaTimer()">Start Yoga Session</button>
+                    <button class="btn secondary" onclick="hideYoga()">Back to Activities</button>
+                </div>
+            </div>
+
+            <!-- Music Therapy -->
+            <div class="card">
+                <h3 class="card-title">🎵 Music Therapy</h3>
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/lCOF9LN_Zxs" allowfullscreen title="Relaxing Music and Sounds for Sleeping"></iframe>
+                    </div>
+                    <p style="text-align: center; margin-top: 15px; color: #666;">
+                        Relaxing music and sounds for sleeping and stress relief
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let memoryCards = [];
+        let flippedCards = [];
+        let memoryScore = 0;
+        let memoryTimer = 60;
+        let memoryInterval;
+        let breathingInterval;
+        let meditationInterval;
+        let yogaInterval;
+        let currentQuizQuestion = 0;
+        let quizScore = 0;
+
+        // Quiz questions
+        const quizQuestions = [
+            {
+                question: "Which food is rich in Vitamin C?",
+                options: ["Orange", "Rice", "Bread", "Milk"],
+                correct: 0
+            },
+            {
+                question: "What helps build strong bones?",
+                options: ["Sugar", "Calcium", "Salt", "Oil"],
+                correct: 1
+            },
+            {
+                question: "Which is the healthiest drink?",
+                options: ["Soda", "Juice", "Water", "Coffee"],
+                correct: 2
+            },
+            {
+                question: "What food group gives us energy?",
+                options: ["Fruits", "Vegetables", "Carbohydrates", "Dairy"],
+                correct: 2
+            }
+        ];
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Growth Tracking Functions
+        function generateGrowthReport() {
+            const childId = document.getElementById('childId').value;
+            if (!childId) {
+                alert('Please enter a Child ID');
+                return;
+            }
+            document.getElementById('growth-report').classList.remove('hidden');
+        }
+
+        // Nutrition Analysis Functions
+        function analyzeFood() {
+            const mealType = document.getElementById('mealType').value;
+            const foodItems = document.getElementById('foodItems').value;
+            
+            if (!foodItems) {
+                alert('Please enter food items');
+                return;
+            }
+            
+            document.getElementById('food-analysis').classList.remove('hidden');
+        }
+
+        // Parent Portal Functions
+        function showBookingForm() {
+            document.getElementById('booking-form').classList.remove('hidden');
+        }
+
+        function hideBookingForm() {
+            document.getElementById('booking-form').classList.add('hidden');
+        }
+
+        function bookAppointment() {
+            const date = document.getElementById('appointmentDate').value;
+            const consultant = document.getElementById('consultantType').value;
+            
+            if (!date || !consultant) {
+                alert('Please select date and consultant type');
+                return;
+            }
+            
+            alert('Appointment booked successfully! You will receive a confirmation email shortly.');
+            hideBookingForm();
+        }
+
+        // Memory Game Functions
+        function startMemoryGame() {
+            document.getElementById('memory-game').classList.remove('hidden');
+            initializeMemoryGame();
+        }
+
+        function hideMemoryGame() {
+            document.getElementById('memory-game').classList.add('hidden');
+            clearInterval(memoryInterval);
+        }
+
+        function initializeMemoryGame() {
+            const symbols = ['🍎', '🥕', '🥛', '🍌', '🥚', '🥬', '🍊', '🥖'];
+            memoryCards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+            flippedCards = [];
+            memoryScore = 0;
+            memoryTimer = 60;
+            
+            const board = document.getElementById('memory-board');
+            board.innerHTML = '';
+            
+            memoryCards.forEach((symbol, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.innerHTML = '?';
+                card.onclick = () => flipCard(index, symbol, card);
+                board.appendChild(card);
+            });
+            
+            document.getElementById('memory-timer').textContent = memoryTimer;
+            document.getElementById('memory-score').textContent = `Score: ${memoryScore}`;
+            
+            memoryInterval = setInterval(() => {
+                memoryTimer--;
+                document.getElementById('memory-timer').textContent = memoryTimer;
+                if (memoryTimer <= 0) {
+                    clearInterval(memoryInterval);
+                    alert(`Game Over! Final Score: ${memoryScore}`);
+                }
+            }, 1000);
+        }
+
+        function flipCard(index, symbol, cardElement) {
+            if (flippedCards.length < 2 && !cardElement.classList.contains('flipped')) {
+                cardElement.innerHTML = symbol;
+                cardElement.classList.add('flipped');
+                flippedCards.push({index, symbol, element: cardElement});
+                
+                if (flippedCards.length === 2) {
+                    setTimeout(checkMatch, 1000);
+                }
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.symbol === card2.symbol) {
+                memoryScore += 10;
+                document.getElementById('memory-score').textContent = `Score: ${memoryScore}`;
+            } else {
+                card1.element.innerHTML = '?';
+                card1.element.classList.remove('flipped');
+                card2.element.innerHTML = '?';
+                card2.element.classList.remove('flipped');
+            }
+            
+            flippedCards = [];
+        }
+
+        function resetMemoryGame() {
+            clearInterval(memoryInterval);
+            initializeMemoryGame();
+        }
+
+        // Nutrition Quiz Functions
+        function startNutritionQuiz() {
+            document.getElementById('nutrition-quiz').classList.remove('hidden');
+            currentQuizQuestion = 0;
+            quizScore = 0;
+            showQuizQuestion();
+        }
+
+        function hideNutritionQuiz() {
+            document.getElementById('nutrition-quiz').classList.add('hidden');
+        }
+
+        function showQuizQuestion() {
+            if (currentQuizQuestion >= quizQuestions.length) {
+                document.getElementById('quiz-question').innerHTML = `Quiz Complete! Final Score: ${quizScore}/${quizQuestions.length}`;
+                document.getElementById('quiz-options').innerHTML = '';
+                return;
+            }
+            
+            const question = quizQuestions[currentQuizQuestion];
+            document.getElementById('quiz-question').textContent = question.question;
+            document.getElementById('quiz-score').textContent = `Score: ${quizScore}/${quizQuestions.length}`;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'btn';
+                button.textContent = option;
+                button.onclick = () => selectQuizAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectQuizAnswer(selectedIndex) {
+            const question = quizQuestions[currentQuizQuestion];
+            if (selectedIndex === question.correct) {
+                quizScore++;
+                alert('Correct! 🎉');
+            } else {
+                alert(`Wrong! The correct answer is: ${question.options[question.correct]}`);
+            }
+            
+            currentQuizQuestion++;
+            setTimeout(showQuizQuestion, 1000);
+        }
+
+        // Exercise Game Functions
+        function startExerciseGame() {
+            alert('🏃‍♀️ Exercise Game Started! Follow these activities:\n\n1. Jump 10 times\n2. Touch your toes 5 times\n3. Stretch your arms up high\n4. March in place for 30 seconds\n\nGreat job staying active!');
+        }
+
+        // Health Puzzle Functions
+        function startHealthPuzzle() {
+            const puzzles = [
+                "I am white and help build strong bones. What am I? (Answer: Milk)",
+                "I am orange and good for your eyes. What am I? (Answer: Carrot)",
+                "I am green and make you strong like Popeye. What am I? (Answer: Spinach)",
+                "I am yellow and give you energy. What am I? (Answer: Banana)"
+            ];
+            
+            const randomPuzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+            alert(`🧩 Health Puzzle:\n\n${randomPuzzle}`);
+        }
+
+        // Breathing Exercise Functions
+        function startBreathingExercise() {
+            document.getElementById('breathing-exercise').classList.remove('hidden');
+        }
+
+        function hideBreathingExercise() {
+            document.getElementById('breathing-exercise').classList.add('hidden');
+            clearInterval(breathingInterval);
+        }
+
+        function startBreathingTimer() {
+            let breathingTime = 5;
+            let isInhaling = true;
+            
+            document.getElementById('breathing-timer').textContent = breathingTime;
+            document.getElementById('breathing-instruction').textContent = 'Breathe In...';
+            
+            breathingInterval = setInterval(() => {
+                breathingTime--;
+                document.getElementById('breathing-timer').textContent = breathingTime;
+                
+                if (breathingTime <= 0) {
+                    if (isInhaling) {
+                        breathingTime = 5;
+                        isInhaling = false;
+                        document.getElementById('breathing-instruction').textContent = 'Breathe Out...';
+                    } else {
+                        breathingTime = 5;
+                        isInhaling = true;
+                        document.getElementById('breathing-instruction').textContent = 'Breathe In...';
+                    }
+                }
+            }, 1000);
+        }
+
+        // Kids Meditation Functions
+        function startKidsMeditation() {
+            document.getElementById('kids-meditation').classList.remove('hidden');
+        }
+
+        function hideMeditation() {
+            document.getElementById('kids-meditation').classList.add('hidden');
+            clearInterval(meditationInterval);
+        }
+
+        function startMeditationTimer() {
+            let meditationTime = 600; // 10 minutes in seconds
+            
+            meditationInterval = setInterval(() => {
+                meditationTime--;
+                const minutes = Math.floor(meditationTime / 60);
+                const seconds = meditationTime % 60;
+                document.getElementById('meditation-timer').textContent = minutes;
+                
+                if (meditationTime <= 0) {
+                    clearInterval(meditationInterval);
+                    alert('🧘‍♀️ Meditation complete! You did great!');
+                }
+            }, 1000);
+        }
+
+        // Fun Yoga Functions
+        function startFunYoga() {
+            document.getElementById('fun-yoga').classList.remove('hidden');
+        }
+
+        function hideYoga() {
+            document.getElementById('fun-yoga').classList.add('hidden');
+            clearInterval(yogaInterval);
+        }
+
+        function startYogaTimer() {
+            let yogaTime = 900; // 15 minutes in seconds
+            
+            yogaInterval = setInterval(() => {
+                yogaTime--;
+                const minutes = Math.floor(yogaTime / 60);
+                document.getElementById('yoga-timer').textContent = minutes;
+                
+                if (yogaTime <= 0) {
+                    clearInterval(yogaInterval);
+                    alert('🤸‍♀️ Yoga session complete! Namaste!');
+                }
+            }, 1000);
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Poshan Mithr - Child Health & Nutrition Management System Loaded');
+        });
+    </script>
+</body>
+</html>
