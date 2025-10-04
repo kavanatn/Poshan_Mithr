@@ -38,11 +38,40 @@ def get_user_by_username(db: Session, username: str):
 
 
 def authenticate_user(db: Session, username: str, password: str):
-    user = get_user_by_username(db, username)
-    if not user or not verify_password(password, user.password):
+    """Authenticate user with username and password"""
+    try:
+        # Force database initialization check
+        from app.models import Base, engine
+        Base.metadata.create_all(bind=engine)
+        
+        user = get_user_by_username(db, username)
+        
+        # If no user found, try initializing database
+        if not user:
+            print(f"User '{username}' not found, checking if DB is seeded...")
+            from app.database import init_db
+            try:
+                init_db()  # This will skip if already initialized
+                user = get_user_by_username(db, username)
+            except Exception as e:
+                print(f"Database init error during auth: {e}")
+        
+        if not user:
+            print(f"❌ User '{username}' does not exist in database")
+            return False
+            
+        if not verify_password(password, user.password):
+            print(f"❌ Invalid password for user '{username}'")
+            return False
+            
+        print(f"✅ User '{username}' authenticated successfully")
+        return user
+        
+    except Exception as e:
+        print(f"❌ Authentication error: {e}")
+        import traceback
+        traceback.print_exc()
         return False
-    return user
-
 
 def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
@@ -98,3 +127,4 @@ def require_role(required_role: UserRole):
         return current_user
 
     return role_checker
+
