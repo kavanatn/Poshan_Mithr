@@ -44,39 +44,57 @@ async def login(
     db: Session = Depends(get_db),
 ):
     """Handle login form submission"""
-    user = authenticate_user(db, username, password)
-    if not user:
-        return templates.TemplateResponse(
-            "login.html", {"request": request, "error": "Invalid username or password"}
+    try:
+        print(f"🔍 Login attempt for username: {username}")
+        
+        user = authenticate_user(db, username, password)
+        if not user:
+            print(f"❌ Authentication failed for: {username}")
+            return templates.TemplateResponse(
+                "login.html", {"request": request, "error": "Invalid username or password"}
+            )
+
+        print(f"✅ User authenticated: {username}, Role: {user.role}")
+
+        # Create access token
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": user.username}, expires_delta=access_token_expires
         )
+        
+        print(f"✅ Token created for: {username}")
 
-    # Create access token
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
+        # Redirect based on role
+        if user.role == UserRole.ADMIN:
+            response = RedirectResponse(url="/admin/dashboard", status_code=302)
+        elif user.role == UserRole.AUTHORITY:
+            response = RedirectResponse(url="/authority/dashboard", status_code=302)
+        elif user.role == UserRole.PARENT:
+            response = RedirectResponse(url="/parent/dashboard", status_code=302)
+        else:
+            print(f"❌ Invalid role for: {username}")
+            return templates.TemplateResponse(
+                "login.html", {"request": request, "error": "Invalid user role"}
+            )
 
-    # Redirect based on role
-    if user.role == UserRole.ADMIN:
-        response = RedirectResponse(url="/admin/dashboard", status_code=302)
-    elif user.role == UserRole.AUTHORITY:
-        response = RedirectResponse(url="/authority/dashboard", status_code=302)
-    elif user.role == UserRole.PARENT:
-        response = RedirectResponse(url="/parent/dashboard", status_code=302)
-    else:
-        return templates.TemplateResponse(
-            "login.html", {"request": request, "error": "Invalid user role"}
+        # Set JWT token in cookie
+        response.set_cookie(
+            key="access_token",
+            value=f"Bearer {access_token}",
+            httponly=True,
+            max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         )
-
-    # Set JWT token in cookie
-    response.set_cookie(
-        key="access_token",
-        value=f"Bearer {access_token}",
-        httponly=True,
-        max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
-    )
-
-    return response
+        
+        print(f"✅ Redirecting {username} to dashboard")
+        return response
+        
+    except Exception as e:
+        print(f"💥 LOGIN ERROR: {type(e).__name__}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return templates.TemplateResponse(
+            "login.html", {"request": request, "error": f"Login error: {str(e)}"}
+        )
 
 
 @router.post("/logout")
