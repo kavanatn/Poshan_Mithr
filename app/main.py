@@ -10,9 +10,6 @@ import os
 from app.database import engine, init_db
 from app.models import Base
 
-# Create database tables
-Base.metadata.create_all(bind=engine)
-
 # Initialize FastAPI app
 app = FastAPI(
     title="Nutrition Management System",
@@ -34,7 +31,7 @@ static_path = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_path):
     try:
         app.mount("/static", StaticFiles(directory=static_path), name="static")
-    except:
+    except Exception:
         pass
 
 
@@ -42,9 +39,14 @@ if os.path.exists(static_path):
 @app.on_event("startup")
 async def startup_event():
     try:
+        from app.database import init_db
+        print("🚀 Starting database initialization...")
         init_db()
-    except:
-        pass  # DB already initialized
+        print("✅ Database initialized successfully")
+    except Exception as e:
+        print(f"⚠️ Database initialization error: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 # Import routers
@@ -65,5 +67,4 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
