@@ -3,32 +3,25 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Get database URL from Vercel environment (Postgres) or use SQLite locally
-DATABASE_URL = os.environ.get(
-    "POSTGRES_URL",
-    os.environ.get(
-        "POSTGRES_POSTGRES_URL",
-        os.environ.get(
-            "POSTGRES_DATABASE_URL",
-            "sqlite:///./nutrition_app.db"
-        )
-    )
-)
-
+# Find any Postgres URL from environment
 DATABASE_URL = None
 for key in os.environ:
-    if 'POSTGRES' in key and 'URL' in key and not 'NON_POOLING' in key:
+    if 'POSTGRES' in key and 'URL' in key and 'NON_POOLING' not in key and 'PRISMA' not in key:
         DATABASE_URL = os.environ[key]
-        print(f"✅ Using database: {key}")
+        print(f"✅ Using database from env var: {key}")
         break
 
+# Fallback to SQLite for local development
 if not DATABASE_URL:
     DATABASE_URL = "sqlite:///./nutrition_app.db"
-    print("⚠️ Using SQLite fallback")
+    print("⚠️ No Postgres found, using SQLite fallback")
 
-# Fix for SQLAlchemy (Vercel uses postgres:// but SQLAlchemy needs postgresql://)
+# Fix for SQLAlchemy (postgres:// → postgresql://)
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    print("✅ Fixed postgres:// to postgresql://")
+
+print(f"🔗 Final DATABASE_URL: {DATABASE_URL[:50]}...")
 
 # Create engine
 if DATABASE_URL.startswith("sqlite"):
@@ -98,9 +91,9 @@ def init_db():
         
     except Exception as e:
         print(f"❌ Database initialization error: {e}")
+        import traceback
+        traceback.print_exc()
         db.rollback()
         raise
     finally:
         db.close()
-
-
