@@ -7,78 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-print("=" * 50)
-print("🚀 STARTING APPLICATION")
-print("=" * 50)
-
-# Check for database environment variables
-print("\n🔍 Checking environment variables:")
-postgres_vars = [key for key in os.environ.keys() if 'POSTGRES' in key]
-print(f"Found {len(postgres_vars)} POSTGRES variables:")
-for var in postgres_vars[:5]:  # Show first 5
-    print(f"  - {var}")
-
-# Find database URL
-DATABASE_URL = None
-for key in os.environ:
-    if 'POSTGRES' in key and 'URL' in key and 'NON_POOLING' not in key and 'PRISMA' not in key:
-        DATABASE_URL = os.environ[key]
-        print(f"\n✅ Using database: {key}")
-        print(f"   URL preview: {DATABASE_URL[:60]}...")
-        break
-
-if not DATABASE_URL:
-    print("\n⚠️  NO POSTGRES URL FOUND - Using SQLite")
-    DATABASE_URL = "sqlite:///./nutrition_app.db"
-
-# Fix postgres:// to postgresql://
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-    print("✅ Fixed URL format: postgres:// → postgresql://")
-
-# Now import database with the URL set
-os.environ['DATABASE_URL_OVERRIDE'] = DATABASE_URL
-
-from app.database import engine, SessionLocal
-from app.models import Base, User, UserRole
-from app.auth import get_password_hash
-
-print("\n🔧 Creating database tables...")
-try:
-    Base.metadata.create_all(bind=engine)
-    print("✅ Tables created successfully")
-except Exception as e:
-    print(f"❌ Table creation failed: {e}")
-
-print("\n🌱 Seeding database...")
-db = SessionLocal()
-try:
-    existing_admin = db.query(User).filter(User.username == "admin").first()
-    if existing_admin:
-        print("✅ Database already has users")
-    else:
-        admin = User(username="admin", password=get_password_hash("admin123"), role=UserRole.ADMIN)
-        headmaster = User(username="head1", password=get_password_hash("pass123"), role=UserRole.AUTHORITY)
-        parent = User(username="parent1", password=get_password_hash("pass123"), role=UserRole.PARENT)
-        
-        db.add(admin)
-        db.add(headmaster)
-        db.add(parent)
-        db.commit()
-        print("✅ Seeded 3 users: admin, head1, parent1")
-except Exception as e:
-    print(f"❌ Seeding failed: {e}")
-    import traceback
-    traceback.print_exc()
-    db.rollback()
-finally:
-    db.close()
-
-print("\n" + "=" * 50)
-print("✅ DATABASE INITIALIZATION COMPLETE")
-print("=" * 50 + "\n")
-
-# Initialize FastAPI app
+# Initialize FastAPI app FIRST
 app = FastAPI(
     title="Nutrition Management System",
     description="School nutrition management system",
@@ -94,13 +23,97 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+async def startup_event():
+    """This runs on EVERY cold start"""
+    print("=" * 60)
+    print("🚀 STARTUP EVENT TRIGGERED")
+    print("=" * 60)
+    
+    # Check environment
+    print("\n🔍 Environment check:")
+    postgres_vars = [k for k in os.environ.keys() if 'POSTGRES' in k and 'URL' in k]
+    print(f"   Found {len(postgres_vars)} POSTGRES_URL variables")
+    for var in postgres_vars[:3]:
+        val = os.environ[var]
+        print(f"   - {var}: {val[:50]}...")
+    
+    # Find database URL
+    DATABASE_URL = None
+    for key in postgres_vars:
+        if 'NON_POOLING' not in key and 'PRISMA' not in key:
+            DATABASE_URL = os.environ[key]
+            print(f"\n✅ Selected: {key}")
+            break
+    
+    if not DATABASE_URL:
+        DATABASE_URL = "sqlite:///./nutrition_app.db"
+        print("\n⚠️  NO POSTGRES - Using SQLite")
+    
+    # Fix URL format
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+        print("✅ Fixed URL format")
+    
+    print(f"\n🔗 Final URL: {DATABASE_URL[:70]}...")
+    
+    # Set override for database module
+    os.environ['DATABASE_URL_OVERRIDE'] = DATABASE_URL
+    
+    # Initialize database
+    try:
+        from sqlalchemy import create_engine
+        from sqlalchemy.orm import sessionmaker
+        from app.models import Base, User, UserRole
+        from app.auth import get_password_hash
+        
+        print("\n🔧 Creating engine...")
+        if DATABASE_URL.startswith("sqlite"):
+            engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+        else:
+            engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+        
+        print("✅ Engine created")
+        
+        print("🔧 Creating tables...")
+        Base.metadata.create_all(bind=engine)
+        print("✅ Tables created")
+        
+        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        
+        print("🌱 Seeding database...")
+        db = SessionLocal()
+        try:
+            existing = db.query(User).filter(User.username == "admin").first()
+            if existing:
+                print("✅ Users already exist")
+            else:
+                admin = User(username="admin", password=get_password_hash("admin123"), role=UserRole.ADMIN)
+                head = User(username="head1", password=get_password_hash("pass123"), role=UserRole.AUTHORITY)
+                parent = User(username="parent1", password=get_password_hash("pass123"), role=UserRole.PARENT)
+                
+                db.add_all([admin, head, parent])
+                db.commit()
+                print("✅ Seeded 3 users")
+        finally:
+            db.close()
+            
+    except Exception as e:
+        print(f"\n❌ INITIALIZATION FAILED: {e}")
+        import traceback
+        traceback.print_exc()
+    
+    print("\n" + "=" * 60)
+    print("✅ STARTUP COMPLETE")
+    print("=" * 60 + "\n")
+
 # Mount static files
 static_path = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_path):
     try:
         app.mount("/static", StaticFiles(directory=static_path), name="static")
-    except Exception as e:
-        print(f"Static files error: {e}")
+    except:
+        pass
 
 # Import routers
 from app.routes import auth_routes, admin_routes, authority_routes, parent_routes
@@ -114,7 +127,7 @@ app.include_router(parent_routes.router)
 # Health check
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "app": "Nutrition Management System"}
+    return {"status": "healthy"}
 
 if __name__ == "__main__":
     import uvicorn
