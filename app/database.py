@@ -6,7 +6,13 @@ import os
 # Get database URL from Vercel environment (Postgres) or use SQLite locally
 DATABASE_URL = os.environ.get(
     "POSTGRES_URL",
-    "sqlite:///./nutrition_app.db"
+    os.environ.get(
+        "POSTGRES_POSTGRES_URL",
+        os.environ.get(
+            "POSTGRES_DATABASE_URL",
+            "sqlite:///./nutrition_app.db"
+        )
+    )
 )
 
 # Fix for SQLAlchemy (Vercel uses postgres:// but SQLAlchemy needs postgresql://)
@@ -85,3 +91,4 @@ def init_db():
         raise
     finally:
         db.close()
+
