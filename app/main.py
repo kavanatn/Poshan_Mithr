@@ -7,17 +7,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-from app.database import engine, init_db
-from app.models import Base
-
-# Initialize FastAPI app
+# Initialize FastAPI app FIRST
 app = FastAPI(
     title="Nutrition Management System",
     description="School nutrition management system",
     version="1.0.0",
 )
 
-# CORS middleware for Vercel
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,28 +23,31 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Force database initialization BEFORE anything else
+print("🚀 Forcing database initialization...")
+try:
+    from app.models import Base
+    from app.database import engine, init_db
+    
+    # Create tables
+    Base.metadata.create_all(bind=engine)
+    print("✅ Tables created")
+    
+    # Seed database
+    init_db()
+    print("✅ Database initialization complete")
+except Exception as e:
+    print(f"⚠️ Database init error: {e}")
+    import traceback
+    traceback.print_exc()
+
 # Mount static files
 static_path = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_path):
     try:
         app.mount("/static", StaticFiles(directory=static_path), name="static")
-    except Exception:
-        pass
-
-
-# Startup event to initialize database
-@app.on_event("startup")
-async def startup_event():
-    try:
-        from app.database import init_db
-        print("🚀 Starting database initialization...")
-        init_db()
-        print("✅ Database initialized successfully")
     except Exception as e:
-        print(f"⚠️ Database initialization error: {e}")
-        import traceback
-        traceback.print_exc()
-
+        print(f"Static files mount error: {e}")
 
 # Import routers
 from app.routes import auth_routes, admin_routes, authority_routes, parent_routes
@@ -58,12 +58,10 @@ app.include_router(admin_routes.router)
 app.include_router(authority_routes.router)
 app.include_router(parent_routes.router)
 
-
-# Health check endpoint
+# Health check
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "app": "Nutrition Management System"}
-
 
 if __name__ == "__main__":
     import uvicorn
