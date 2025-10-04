@@ -2,21 +2,23 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
-import sys
 
-# Detect if running on Vercel
-IS_VERCEL = os.environ.get("VERCEL", False)
-
-if IS_VERCEL:
-    # Use /tmp on Vercel (serverless)
-    SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/nutrition_app.db"
-else:
-    # Use current directory for local development
-    SQLALCHEMY_DATABASE_URL = "sqlite:///./nutrition_app.db"
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+# Get database URL from Vercel environment (Postgres) or use SQLite locally
+DATABASE_URL = os.environ.get(
+    "POSTGRES_URL",
+    "sqlite:///./nutrition_app.db"
 )
+
+# Fix for SQLAlchemy (Vercel uses postgres:// but SQLAlchemy needs postgresql://)
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# Create engine
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -83,24 +85,3 @@ def init_db():
         raise
     finally:
         db.close()
-# Auto-initialize database on import
-import atexit
-
-def ensure_db_initialized():
-    """Ensure database is initialized - called on every cold start"""
-    try:
-        # Check if tables exist
-        from app.models import User
-        db = SessionLocal()
-        try:
-            db.query(User).first()
-            db.close()
-        except:
-            # Tables don't exist, initialize
-            db.close()
-            init_db()
-    except Exception as e:
-        print(f"Database check error: {e}")
-
-# Run on module import (every serverless function cold start)
-ensure_db_initialized()
