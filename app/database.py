@@ -15,6 +15,17 @@ DATABASE_URL = os.environ.get(
     )
 )
 
+DATABASE_URL = None
+for key in os.environ:
+    if 'POSTGRES' in key and 'URL' in key and not 'NON_POOLING' in key:
+        DATABASE_URL = os.environ[key]
+        print(f"✅ Using database: {key}")
+        break
+
+if not DATABASE_URL:
+    DATABASE_URL = "sqlite:///./nutrition_app.db"
+    print("⚠️ Using SQLite fallback")
+
 # Fix for SQLAlchemy (Vercel uses postgres:// but SQLAlchemy needs postgresql://)
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
@@ -91,4 +102,5 @@ def init_db():
         raise
     finally:
         db.close()
+
 
