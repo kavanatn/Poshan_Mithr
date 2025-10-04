@@ -1,0 +1,132 @@
+{% extends "base.html" %} {% block title %}Parent Dashboard{% endblock %} {%
+block content %}
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12">
+      {% if error %}
+      <div class="alert alert-warning">⚠️ {{ error }}</div>
+      {% else %}
+      <h2>💖 {{ kid.name }}'s Health Dashboard</h2>
+      <p class="text-muted">Monitor your child's nutrition and growth</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if kid and not error %}
+  <div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body text-center">
+          <h3>{{ age_years }}.{{ age_months }}</h3>
+          <p class="mb-0">🎂 Age</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+      <div class="card bg-info text-white">
+        <div class="card-body text-center">
+          <h3>{{ kid.gender.value.title() }}</h3>
+          <p class="mb-0">⚥ Gender</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+      <div class="card bg-success text-white">
+        <div class="card-body text-center">
+          <h3>{{ kid.veg_preference.value.replace('_', '-').title() }}</h3>
+          <p class="mb-0">🥗 Diet</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+      <div
+        class="card bg-{% if latest_report %}{% if latest_report.status.value == 'healthy' %}success{% else %}warning{% endif %}{% else %}secondary{% endif %} text-white"
+      >
+        <div class="card-body text-center">
+          <h3>
+            {% if latest_report %}{{ latest_report.status.value.title() }}{%
+            else %}Pending{% endif %}
+          </h3>
+          <p class="mb-0">💚 Status</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if latest_report %}
+  <div class="row">
+    <div class="col-md-8 mb-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5>📊 Latest Assessment</h5>
+          <small>{{ latest_report.report_date.strftime('%B %d, %Y') }}</small>
+        </div>
+        <div class="card-body">
+          <div class="row text-center mb-3">
+            <div class="col-md-4">
+              <div class="p-3 border rounded">
+                <h3>{{ latest_report.bmi }}</h3>
+                <small>BMI</small>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 border rounded">
+                <h3>{{ latest_report.status.value.title() }}</h3>
+                <small>Status</small>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 border rounded">
+                <h3>{{ latest_report.bmi_percentile }}%</h3>
+                <small>Percentile</small>
+              </div>
+            </div>
+          </div>
+
+          {% if latest_report.recommendation %}
+          <hr />
+          <h6>🍽️ Diet Recommendations:</h6>
+          <div class="alert alert-light">
+            <pre
+              style="
+                white-space: pre-wrap;
+                font-family: inherit;
+                font-size: 0.9em;
+              "
+            >
+{{ latest_report.recommendation[:300] }}...</pre
+            >
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h5>💡 Health Tips</h5>
+        </div>
+        <div class="card-body">
+          <ul class="small">
+            <li>Regular meal times</li>
+            <li>8-10 glasses water daily</li>
+            <li>Variety in diet</li>
+            <li>Physical activity</li>
+            <li>Adequate sleep</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="alert alert-info text-center">
+    <h5>📋 No Assessment Yet</h5>
+    <p>Health assessment will appear once measurements are taken by school.</p>
+  </div>
+  {% endif %} {% endif %}
+</div>
+{% endblock %}

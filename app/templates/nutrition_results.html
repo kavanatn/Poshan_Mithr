@@ -1,0 +1,121 @@
+{% extends "base.html" %} {% block title %}Nutrition Results{% endblock %} {%
+block content %}
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2>📊 Nutrition Assessment Results</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
+          <h5>👶 Student Info</h5>
+        </div>
+        <div class="card-body">
+          <h6><strong>{{ kid.name }}</strong></h6>
+          <hr />
+          <p class="mb-1">
+            🎂 Age: {{ age_years }} years, {{ age_months }} months
+          </p>
+          <p class="mb-1">⚥ Gender: {{ kid.gender.value.title() }}</p>
+          <p class="mb-1">
+            🥗 Diet: {{ kid.veg_preference.value.replace('_', '-').title() }}
+          </p>
+          <p class="mb-0">
+            🏛️ Class: {{ kid.classroom.name if kid.classroom else 'N/A' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8 mb-4">
+      <div
+        class="card border-{% if status == 'Healthy' %}success{% elif status == 'Underweight' %}warning{% else %}danger{% endif %}"
+      >
+        <div
+          class="card-header bg-{% if status == 'Healthy' %}success{% elif status == 'Underweight' %}warning{% else %}danger{% endif %} text-white"
+        >
+          <h5>📊 Results</h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-3">
+              <div class="p-3 border rounded">
+                <h3 class="text-primary">{{ bmi }}</h3>
+                <small>BMI</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="p-3 border rounded">
+                <h3
+                  class="text-{% if status == 'Healthy' %}success{% else %}warning{% endif %}"
+                >
+                  {{ status }}
+                </h3>
+                <small>Status</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="p-3 border rounded">
+                <h3 class="text-info">{{ percentile }}%</h3>
+                <small>Percentile</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="p-3 border rounded">
+                <h3>{{ deficiencies|length }}</h3>
+                <small>Risk Factors</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card border-warning">
+        <div class="card-header bg-warning text-dark">
+          <h5>⚠️ Deficiencies</h5>
+        </div>
+        <div class="card-body">
+          {% if deficiencies %}
+          <ul class="list-group">
+            {% for deficiency in deficiencies %}
+            <li class="list-group-item">{{ deficiency }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <div class="alert alert-success">✅ No deficiencies identified</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card border-success">
+        <div class="card-header bg-success text-white">
+          <h5>🍽️ Diet Plan</h5>
+        </div>
+        <div class="card-body">
+          <div style="max-height: 300px; overflow-y: auto">
+            <pre style="white-space: pre-wrap; font-family: inherit">
+{{ recommendation }}</pre
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-3">
+    <a href="/authority/nutrition-calculator" class="btn btn-warning me-2"
+      >🧮 Calculate Again</a
+    >
+    <a href="/authority/dashboard" class="btn btn-secondary">🏠 Dashboard</a>
+  </div>
+</div>
+{% endblock %}

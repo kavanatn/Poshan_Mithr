@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% block title %}Create Classroom{% endblock %} {%
+block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">🏛️ Create New Classroom</h4>
+        </div>
+        <div class="card-body">
+          <form method="post" action="/authority/create-classroom">
+            <div class="mb-4">
+              <label for="classroom_name" class="form-label">
+                <strong>Classroom Name</strong>
+                <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="classroom_name"
+                name="classroom_name"
+                placeholder="e.g., Class 1A, Grade 2B, KG Section A"
+                required
+              />
+              <small class="text-muted"
+                >Choose a descriptive name that identifies the class or
+                section</small
+              >
+            </div>
+
+            <div class="alert alert-info">
+              <h6 class="alert-heading">💡 Tips for Naming Classrooms</h6>
+              <ul class="mb-0">
+                <li>Include grade/standard (e.g., Class 5A)</li>
+                <li>Add section identifier if needed (e.g., Section B)</li>
+                <li>Keep it short and clear</li>
+                <li>Examples: "KG Red", "Class 1A", "Grade 6 Science"</li>
+              </ul>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a href="/authority/dashboard" class="btn btn-secondary">
+                ← Back to Dashboard
+              </a>
+              <button type="submit" class="btn btn-success btn-lg">
+                ✅ Create Classroom
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card mt-3">
+        <div class="card-header">
+          <h6 class="mb-0">📋 What's Next?</h6>
+        </div>
+        <div class="card-body">
+          <p class="mb-2">After creating a classroom, you can:</p>
+          <ul class="mb-0">
+            <li>Add students to this classroom</li>
+            <li>Organize students by class/section</li>
+            <li>Track class-wise nutrition statistics</li>
+            <li>Generate classroom health reports</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
