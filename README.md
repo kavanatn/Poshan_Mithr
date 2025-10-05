@@ -39,22 +39,5 @@ graph TD
     G[District Authority] --> H[View Aggregated District Dashboard]
     H --> I[Policy & Resource Decisions]
 
-| Layer                      | Technology                                      |
-| -------------------------- | ----------------------------------------------- |
-| Frontend                   | React.js, Tailwind CSS                          |
-| Backend                    | FastAPI, Flask                                  |
-| Database                   | PostgreSQL                                      |
-| AI / Recommendation Engine | Custom AI module for dietary suggestions        |
-| Deployment                 | Vercel (Frontend), Render (Backend)             |
-| Integrations               | Optional future Slack / Notion API integrations |
 
-🎨 UI / UX Highlights
-
-Clean and Intuitive Interface: Easy navigation for parents, teachers, and district officials.
-
-Real-time Dashboards: Interactive graphs for health and nutrition data.
-
-Responsive Design: Works seamlessly on desktops, tablets, and mobiles.
-
-Accessible Design: Multi-language support and future voice interface integration.
 
