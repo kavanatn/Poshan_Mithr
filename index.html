@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poshan Mithr - Smart School Nutrition Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ff6b35;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .logo-icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b35;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+            padding: 10rem 8% 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('/images/hero1.jpg') center/cover;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        .gradient-orb {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(102,187,106,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -150px;
+            left: -150px;
+            animation: float 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-gradient-text {
+            background: linear-gradient(135deg, #ff6b35 0%, #66bb6a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.35rem;
+            color: #666;
+            margin-bottom: 3rem;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1.1rem 2.8rem;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.2px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(255, 107, 53, 0.35);
+        }
+
+        .cta-icon {
+            width: 18px;
+            height: 18px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 7rem 8%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+
+        .section-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            color: #1a1a1a;
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+        }
+
+        .section-header p {
+            font-size: 1.15rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+            letter-spacing: -0.2px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-text {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.9s ease;
+        }
+
+        .about-text.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.8;
+            letter-spacing: -0.2px;
+        }
+
+        .about-visual {
+            background: #fafafa;
+            padding: 3rem;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.9s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80') center/cover;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .about-visual.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.8rem;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s;
+        }
+
+        .flow-item:hover {
+            border-color: #ff6b35;
+            transform: translateX(5px);
+        }
+
+        .flow-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b35 0%, #66bb6a 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .flow-text strong {
+            display: block;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .flow-text p {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Stakeholders Section */
+        .stakeholders {
+            background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+            position: relative;
+        }
+
+        .stakeholders::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/images/stakeholder.jpg') center/cover;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .stakeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .stakeholder-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .stakeholder-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stakeholder-card:hover {
+            transform: translateY(-8px);
+            border-color: #ff6b35;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+        }
+
+        .stakeholder-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b35 0%, #66bb6a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .stakeholder-card h3 {
+            font-size: 1.4rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .stakeholder-card p {
+            color: #666;
+            line-height: 1.7;
+            letter-spacing: -0.2px;
+        }
+
+        /* Technology Section */
+        #technology {
+            position: relative;
+        }
+
+        #technology::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/images/download.png') center/cover;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #technology > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .tech-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .tech-item:hover {
+            transform: translateY(-5px);
+            border-color: #ff6b35;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .tech-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .tech-item h4 {
+            color: #1a1a1a;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        /* Demo Section */
+        .demo {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            text-align: center;
+            border-radius: 20px;
+            padding: 6rem 3rem;
+            margin: 4rem 0;
+        }
+
+        .demo h2 {
+            color: white;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+        }
+
+        .demo p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            letter-spacing: -0.2px;
+        }
+
+        .demo-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1.1rem 2.8rem;
+            background: white;
+            color: #1a1a1a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(255,255,255,0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.2px;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(255,255,255,0.25);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 0;
+            font-size: 0.95rem;
+            letter-spacing: -0.2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1.2rem 5%;
+            }
+
+            section {
+                padding: 5rem 5%;
+            }
+
+            .hero {
+                padding: 8rem 5% 5rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+                letter-spacing: -1.5px;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .stakeholder-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+    <div class="logo-icon">
+        <img src="/images/logo.jpg" alt="Poshan Mithr Logo">
+    </div>
+    Poshan Mithr
+</div>
+        <ul class="nav-links">
+            
+            <li><a href="#about">About</a></li>
+            <li><a href="#stakeholders">Stakeholders</a></li>
+            <li><a href="#technology">Technology</a></li>
+            
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="gradient-orb"></div>
+        <div class="hero-content">
+            <h1>
+                <span class="hero-gradient-text">Empowering Nutrition.</span><br>
+                Enabling Growth.
+            </h1>
+            <p class="hero-subtitle">A smart nutrition and wellness management system for schools and anganwadis, designed to transform child health outcomes</p>
+            <a href="https://poshan-mithr-kappa.vercel.app/" class="cta-button">
+                <span class="cta-icon">→</span>
+                Launch Application
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <h2>What is Poshan Mithr?</h2>
+            <p>A comprehensive platform that bridges schools, anganwadis, parents, and district officials with real-time nutrition analytics, BMI tracking, and personalized dietary recommendations</p>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <p>
+                    Poshan Mithr transforms nutrition management across schools and anganwadis by providing intelligent insights into child health and meal quality. Our platform empowers stakeholders with data-driven decisions, ensuring every child receives optimal nutrition for healthy growth and development. Built on modern technology and grounded in nutritional science, we're reshaping how educational institutions and early childhood centers approach student wellness.
+                </p>
+            </div>
+            <div class="about-visual">
+                <div class="flow-item">
+                    <div class="flow-icon">01</div>
+                    <div class="flow-text">
+                        <strong>Child Health Data</strong>
+                        <p>Comprehensive BMI and nutrition status tracking</p>
+                    </div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-icon">02</div>
+                    <div class="flow-text">
+                        <strong>School Management</strong>
+                        <p>Real-time analytics and intelligent reporting</p>
+                    </div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-icon">03</div>
+                    <div class="flow-text">
+                        <strong>District Authority</strong>
+                        <p>Evidence-based policy and decision making</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stakeholders Section -->
+    <section id="stakeholders" class="stakeholders">
+        <div class="section-header">
+            <h2>Designed for Every Beneficiary</h2>
+            <p>Empowering parents, schools, anganwadis, and authorities with tailored solutions for comprehensive child nutrition management</p>
+        </div>
+        <div class="stakeholder-grid">
+            <div class="stakeholder-card">
+                <div class="stakeholder-icon">P</div>
+                <h3>Parents</h3>
+                <p>Track your child's health metrics, nutrition intake, and meal reports in real-time. Receive personalized dietary recommendations based on Indian nutrition standards and your child's specific needs.</p>
+            </div>
+            <div class="stakeholder-card">
+                <div class="stakeholder-icon">S</div>
+                <h3>Schools & Anganwadis</h3>
+                <p>Manage student and child health data efficiently with intuitive dashboards. View class-wise and center-wise analytics, monitor meal quality, and ensure optimal nutrition delivery across your institution.</p>
+            </div>
+            <div class="stakeholder-card">
+                <div class="stakeholder-icon">D</div>
+                <h3>District Officials</h3>
+                <p>Access comprehensive district-level dashboards with aggregated health data. Make informed policy decisions and allocate resources effectively based on evidence-driven insights.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology">
+        <div class="section-header">
+            <h2>Built with Swadeshi Technology</h2>
+            <p>Leveraging cutting-edge tools for performance, scalability, and reliability in every aspect of the platform</p>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">⚡</div>
+                <h4>UX4G</h4>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🌨️</div>
+                <h4>NIC + Meghraj
+                </h4>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🐘</div>
+                <h4>PostgreSQL</h4>
+            </div>
+            
+        
+            <div class="tech-item">
+                <div class="tech-icon">🤖</div>
+                <h4>AI4Bharath</h4>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🗣️</div>
+                <h4>Bhasini</h4>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🤗</div>
+                <h4>IndicBert</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo">
+        <h2>Experience Poshan Mithr in Action</h2>
+        <p>See how our platform revolutionizes nutrition management across schools and anganwadis with intelligent insights and seamless workflows</p>
+        <div class="demo-features">
+            <div class="demo-feature">
+                <div class="demo-feature-icon">📊</div>
+                <h4>Real-time Analytics</h4>
+                <p>Track nutrition metrics instantly</p>
+            </div>
+            <div class="demo-feature">
+                <div class="demo-feature-icon">📈</div>
+                <h4>Health Monitoring</h4>
+                <p>BMI tracking and growth analysis</p>
+            </div>
+            <div class="demo-feature">
+                <div class="demo-feature-icon">🍽️</div>
+                <h4>Meal Management</h4>
+                <p>Smart menu planning and tracking</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with dedication by Team Poshan Mithr | © 2025</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.section-header, .about-text, .about-visual, .stakeholder-card, .tech-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add staggered animation delays for tech items
+        document.querySelectorAll('.tech-item').forEach((item, index) => {
+            item.style.transitionDelay = `${index * 0.08}s`;
+        });
+
+        // Add staggered animation delays for stakeholder cards
+        document.querySelectorAll('.stakeholder-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.15}s`;
+        });
+    </script>
+</body>
+</html>
