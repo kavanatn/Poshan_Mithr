@@ -1,5 +1,5 @@
+# 🍎 Poshan Mithr – Smart School Nutrition Management System
 
- #Poshan Mithr – Smart School Nutrition Management System
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/yourusername/poshan-mithr)](https://github.com/yourusername/poshan-mithr/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/yourusername/poshan-mithr)](https://github.com/yourusername/poshan-mithr/issues)
@@ -38,4 +38,3 @@ graph TD
     E --> F[Generate Reports & Analytics]
     G[District Authority] --> H[View Aggregated District Dashboard]
     H --> I[Policy & Resource Decisions]
-
