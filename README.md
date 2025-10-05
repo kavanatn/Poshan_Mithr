@@ -1,6 +1,6 @@
 <h1>
   <img src="https://github.com/user-attachments/assets/ff953085-ccdf-43d9-b085-d270d899dbb0" alt="Poshan Mithr Logo" width="80" height="80" style="vertical-align:middle;">
-  Poshan Mithr – Smart School Nutrition Management System
+  Poshan Mithr – Empowering Nutrition Enabling Growth
 </h1>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -41,6 +41,7 @@ graph TD
     E --> F[Generate Reports & Analytics]
     G[District Authority] --> H[View Aggregated District Dashboard]
     H --> I[Policy & Resource Decisions]
+
 
 
 
