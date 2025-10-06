@@ -246,8 +246,11 @@
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5rem;
+            gap: 8rem;
             align-items: center;
+            min-height: 100vh; /* ensures section fills at least full viewport height */
+    padding-top: 4rem; /* extra spacing above content */
+    padding-bottom: 4rem; /* extra spacing below content */
         }
 
         .about-text {
@@ -792,6 +795,7 @@
 </body>
 
 </html>
+
 
 
 
